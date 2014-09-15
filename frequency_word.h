@@ -27,7 +27,7 @@ public:
     
     typedef std::pair<std::string, size_t> Pair_t;
     
-    void run(void);
+    void run(void) noexcept;
     
     template<typename Pred>
     std::vector<Pair_t> get_frequency_and_sort_by_pred(Pred pred)
@@ -43,12 +43,13 @@ public:
     
     const std::string& path() const;
     void path(const std::string&);
+    void clear_frequency();
     
 private:
     std::map<std::string, size_t> frequency;
     std::string _path;
     const char* token = "\n\t ";
-    inline void scan(const std::string &path)
+    inline void scan(const std::string &path) noexcept
     {
         std::string line;
         std::ifstream input_file(path);
