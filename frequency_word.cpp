@@ -6,7 +6,7 @@
 #include "frequency_word.h"
 
 frequency_word::frequency_word(const std::string &path)
-    : _path(path)
+    : _path(path), trie(new Trie(NULL, '?'))
 {
     
 }

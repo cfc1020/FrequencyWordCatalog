@@ -18,6 +18,8 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 
+#include "Trie.h"
+
 namespace bfs = boost::filesystem;
 
 class frequency_word
@@ -41,9 +43,23 @@ public:
         return arr_word;
     }
     
+    void get_top_counts(std::vector<Trie*>& most_counted, int& distinct_word_count, int& total_word_count)
+    {
+        trie->get_top_counts(most_counted, distinct_word_count, total_word_count);
+    }
+    
+    ~frequency_word()
+    {
+        if (trie)
+        {
+            trie->m_parent.reset();
+        }
+    }
+    
     const std::string& path() const;
     void path(const std::string&);
     void clear_frequency();
+    Trie* trie;
     
 private:
     std::map<std::string, size_t> frequency;
@@ -86,7 +102,7 @@ private:
         boost::trim(str);
         boost::algorithm::split(vec, str, boost::is_any_of(token), boost::token_compress_on);
     }
-    
+                
     inline void execute(std::string& s)
     {
         std::vector<std::string> arr_word;
@@ -94,7 +110,8 @@ private:
         trim_and_split(arr_word, s, token);
         for (auto &word: arr_word)
         {
-            ++frequency[word];
+            //++frequency[word];
+            trie->add_word(word);
         }
     }
 };
